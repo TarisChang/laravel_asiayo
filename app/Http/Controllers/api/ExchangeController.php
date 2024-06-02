@@ -18,14 +18,20 @@ class ExchangeController extends Controller
 
     public function exchange(ExchageRequest $request)
     {
+        try {
+            $currencies = $this->currencyExchangeService->getCrrencies()["currencies"];
 
-        $currencies = $this->currencyExchangeService->getCrrencies()["currencies"];
+            $result = number_format($currencies[$request->source][$request->target] * str_replace(",", "", $request->amount), 2);
 
-        $result = number_format($currencies[$request->source][$request->target] * str_replace(",", "", $request->amount), 2);
-
-        return response()->json([
-            "msg" => "success",
-            "amount" => $result
-        ]);
+            return response()->json([
+                "msg"    => "success",
+                "amount" => $result
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                "msg"  => "fail",
+                "data" => $th->getMessage()
+            ]);
+        }
     }
 }

@@ -24,7 +24,7 @@ class ExchageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'source' => ['required','alpha'],
+            'source' => ['required', 'alpha'],
             'target' => ['required', 'alpha'],
             'amount' => ['required', 'regex:/^(\d+|\d{1,3}(,\d{3})*)(\.\d+)?$/'],
         ];
@@ -43,7 +43,7 @@ class ExchageRequest extends FormRequest
     {
         throw new HttpResponseException(response()->json([
             'msg'   => "fail",
-            'data'      => $validator->errors()
+            'data'  => $validator->errors()
         ]));
     }
 }
